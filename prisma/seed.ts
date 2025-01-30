@@ -5,11 +5,9 @@ const prisma = new PrismaClient();
 async function main() {
     await prisma.logo.createMany({
         data: [
-          {url: "/logo/logo_1.png"},
-          {url: "/logo/logo_2.png"},
-          {url: "/logo/logo_3.png"},
-          {url: "/logo/logo_4.png"},
-          {url: "/logo/logo_5.png"},
+          {url: "/logo/logo_6.png"},
+          {url: "/logo/logo_7.png"},
+
           
         ],
     });
