@@ -164,9 +164,9 @@ export default function EditProduct() {
 
                 <button
                     type="submit"
-                    className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    className="border border-blue-600 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition duration-300 transform hover:scale-105"
                 >
-                    Save
+                    Update
                 </button>
             </Form>
         </section>
