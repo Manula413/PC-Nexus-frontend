@@ -12,8 +12,8 @@ export default function Footer() {
           <nav className="flex space-x-6 text-sm mt-4 md:mt-0">
             <a href="/" className="hover:text-white transition">Home</a>
             <a href="/products" className="hover:text-white transition">Products</a>
-            <a href="/about" className="hover:text-white transition">About</a>
-            <a href="/contact" className="hover:text-white transition">Contact</a>
+            <a href="#" className="hover:text-white transition">About</a>
+            <a href="#" className="hover:text-white transition">Contact</a>
           </nav>
   
           {/* Right Section - Copyright */}

@@ -7,7 +7,8 @@ const ProductCard = ({ product }) => {
         <div className="flex flex-col items-center">
             {/* Product Card */}
             <div className="bg-white shadow-lg rounded-xl p-3 w-full relative flex justify-center transition-all duration-300 hover:shadow-xl">
-                <img className="w-56 h-56 object-cover rounded-lg transition-transform duration-300 hover:scale-105" src={product.image} alt={product.name} />
+            <img className="w-56 h-56 object-contain rounded-lg transition-transform duration-300 hover:scale-105" src={product.image} alt={product.name} />
+
     
                 {/* Heart Icon (Like button) */}
                 <button className="absolute top-2 right-2 text-gray-500 hover:text-red-500 transition duration-300">
