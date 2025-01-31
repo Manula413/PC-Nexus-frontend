@@ -3,27 +3,34 @@ import { Form } from "@remix-run/react";
 import { createProduct } from "../services/products.service";
 
 export const action = async ({ request }) => {
-    const formData = await request.formData();
-    const name = formData.get("name");
-    const price = formData.get("price");
-    const description = formData.get("description");
-    const image = formData.get("image");
+    try {
+        const formData = await request.formData();
+        const name = formData.get("name")?.trim();
+        const price = formData.get("price")?.trim();
+        const description = formData.get("description")?.trim() || "";
+        const image = formData.get("image")?.trim() || "";
+        const category = formData.get("category")?.trim() || "";
+        const brand = formData.get("brand")?.trim() || "";
 
-    // Parse rating and reviews to numbers
-    const rating = parseFloat(formData.get("rating"));
-    const reviews = parseInt(formData.get("reviews"), 10);
+        const ratingValue = formData.get("rating");
+        const reviewsValue = formData.get("reviews");
 
-    const category = formData.get("category");
-    const brand = formData.get("brand");
+        // Ensure rating and reviews are valid
+        const rating = ratingValue ? parseFloat(ratingValue) : 0;
+        const reviews = reviewsValue ? parseInt(reviewsValue, 10) : 0;
 
-    // Ensure rating and reviews are valid numbers
-    if (isNaN(rating) || isNaN(reviews)) {
-        throw new Response("Invalid rating or reviews value", { status: 400 });
+        if (!name || !price) {
+            return json({ error: "Name and Price are required." }, { status: 400 });
+        }
+
+        await createProduct({ name, price, description, image, rating, reviews, category, brand });
+        return redirect("/manage");
+    } catch (error) {
+        console.error("Error in manage.new action:", error);
+        return json({ error: "An unexpected error occurred." }, { status: 500 });
     }
-
-    await createProduct({ name, price, description, image, rating, reviews, category, brand });
-    return redirect("/manage");
 };
+
 
 export default function NewProduct() {
     return (
