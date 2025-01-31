@@ -13,15 +13,15 @@ export default function Root() {
         <link rel="icon" href="data:image/x-icon;base64,AA" />
       </head>
       <body className="bg-gray-100 text-gray-900 font-sans flex flex-col min-h-screen">
-        
-        <Header /> 
 
-        <main className="p-4 md:p-8">
+        <Header />
+
+        <main className="p-4 md:p-8 flex-grow">
           <Outlet />
         </main>
 
-        <Footer /> 
-
+        <Footer />
+        
         <Scripts />
       </body>
     </html>
