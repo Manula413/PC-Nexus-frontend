@@ -132,10 +132,12 @@ export default function ManageProducts() {
                 </div>
             </section>
 
+             {/* Right Section: Edit and Add new product Forms*/}
+
             <section className="w-full sm:w-2/5 md:w-1/3 lg:w-2/5 xl:w-1/3 p-6 bg-white shadow-lg rounded-md flex-grow max-w-full">
                 {isEditing || isAdding ? (
                     <div className="p-4">
-                        <Outlet />
+                        <Outlet key={params.id} /> {/* 🔥 Adding key forces re-render */}
                     </div>
                 ) : (
                     <div className="flex flex-col items-center justify-center min-h-[300px] text-center gap-4">
@@ -167,6 +169,7 @@ export default function ManageProducts() {
                     </div>
                 )}
             </section>
+
 
         </main>
     );

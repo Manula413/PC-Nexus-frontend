@@ -9,6 +9,7 @@ import { json, redirect } from "@remix-run/node";
 import { createProduct } from "../services/products.service"; // Assuming your service logic remains the same
 
 import 'devextreme/dist/css/dx.light.css';
+import { Font } from "devextreme-react/cjs/bar-gauge";
 
 export const action = async ({ request }) => {
     try {
@@ -178,8 +179,10 @@ export default function NewProduct() {
                 <Button
                     type="default" // "default" is the basic button type
                     text="Add Product"
-                    className="mt-4 w-full border border-green-600 text-green-600 px-4 py-2 rounded-lg hover:bg-green-100 transition duration-300 transform hover:scale-105"
-                    useSubmitBehavior={true} // This will ensure the button submits the form
+                    stylingMode="outlined"
+                    className="mt-4 w-full border text-green-600 px-4 py-2 rounded-lg hover:bg-green-100 transition duration-300 transform hover:scale-105"
+                    style={{ borderColor: '#10B981', color: '#10B981' }} 
+                    useSubmitBehavior={true} 
                 />
 
 
