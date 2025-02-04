@@ -34,7 +34,7 @@ export const action = async ({ request }) => {
 
 export default function NewProduct() {
     return (
-        <section className="w-full sm:w-3/5 md:w-2/3 lg:w-1/2 xl:w-2/3 p-4 bg-white shadow-lg rounded-md min-h-[500px]">
+        <section className="w-full p-4 bg-white shadow-lg rounded-md min-h-[500px]">
             <h1 className="text-3xl font-semibold mb-4 text-gray-800">Add New Product</h1>
             <Form method="post" className="space-y-6">
                 {/* Name */}

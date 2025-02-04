@@ -55,7 +55,7 @@ export default function ManageProducts() {
     return (
         <main className="flex flex-wrap gap-6 p-4 md:p-6 lg:flex-nowrap">
             {/* Left Section: Product List */}
-            <section className="w-full lg:w-1/2 xl:w-2/3 p-4 border-r bg-white shadow-lg rounded-md min-h-[400px] sm:min-h-[500px] md:min-h-[600px] lg:min-h-[700px] xl:min-h-[800px] flex flex-col">
+            <section className="w-full lg:w-3/5 xl:w-3/4 p-4 border-r bg-white shadow-lg rounded-md min-h-[400px] sm:min-h-[500px] md:min-h-[600px] lg:min-h-[700px] xl:min-h-[800px] flex flex-col">
                 <div className="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
                     <h1 className="text-2xl sm:text-3xl font-semibold text-gray-800">Manage Products</h1>
                     <div className="flex flex-wrap gap-2 sm:gap-4 justify-center">
@@ -81,33 +81,23 @@ export default function ManageProducts() {
                             dataSource={products}
                             keyExpr="id"
                             showBorders={true}
-                            className={`w-full min-w-[600px] ${clientClass}`}
+                            columnAutoWidth={false} // Disable auto width since we set widths manually
+                            className="w-full min-w-[600px]" // Ensure it doesn't shrink too much
                         >
-                            <Column
-                                dataField="id"
-                                caption="ID"
-                                width={100}
-                                cellRender={({ data }) => (
-                                    <div className="text-center">{data.id}</div>
-                                )}
-                            />
+                            <Column dataField="id" caption="ID" width={80} alignment="center" />
                             <Column
                                 dataField="name"
                                 caption="Name"
-                                width="auto"
+                                minWidth={150}
+                                flexGrow={1} // Allow it to expand when space is available
                                 cellRender={({ data }) => (
-                                    <div className="truncate max-w-[200px]">{data.name}</div>
+                                    <div className="truncate max-w-[300px]">{data.name}</div> // Allow truncation
                                 )}
                             />
+                            <Column dataField="price" caption="Price" width={120} alignment="center" />
                             <Column
-                                dataField="price"
-                                caption="Price"
-                                width={150}
-                                cellRender={({ data }) => (
-                                    <div className="text-center">${data.price}</div>
-                                )}
-                            />
-                            <Column
+                                caption="Actions"
+                                width={200}
                                 cellRender={({ data }) => (
                                     <div className="flex flex-wrap gap-2 justify-center">
                                         <Link
@@ -116,7 +106,7 @@ export default function ManageProducts() {
                                         >
                                             Edit
                                         </Link>
-                                        <Form method="post" className="inline">
+                                        <Form method="post">
                                             <input type="hidden" name="id" value={data.id} />
                                             <input type="hidden" name="actionType" value="delete" />
                                             <button
@@ -128,15 +118,16 @@ export default function ManageProducts() {
                                         </Form>
                                     </div>
                                 )}
-                                caption="Actions"
                             />
                         </DataGrid>
+
+
                     )}
                 </div>
             </section>
 
             {/* Right Section: Edit/Add Form */}
-            <section className="w-full lg:w-1/2 xl:w-2/3 p-6 bg-white shadow-lg rounded-md mx-auto">
+            <section className="w-full sm:w-2/5 md:w-1/3 lg:w-2/5 xl:w-1/3 p-6 bg-white shadow-lg rounded-md">
                 {isEditing || isAdding ? (
                     <div className="p-4">
                         <Outlet />
@@ -171,6 +162,7 @@ export default function ManageProducts() {
                     </div>
                 )}
             </section>
+
         </main>
     );
 }
