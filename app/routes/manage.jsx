@@ -3,8 +3,12 @@ import { json, redirect } from "@remix-run/node";
 import { useLoaderData, Form, Link, Outlet, useParams, useLocation } from "@remix-run/react";
 import { getProducts, deleteProduct, createProduct } from "../services/products.service";
 import { DataGrid, Column } from 'devextreme-react/data-grid';
-import 'devextreme/dist/css/dx.light.css'; // Ensure DevExtreme styles are imported
 
+
+import 'devextreme/dist/css/dx.light.css'; // Ensure DevExtreme styles are imported
+if (typeof document !== "undefined") {
+    import("devextreme/dist/css/dx.light.css");
+}
 
 export const loader = async () => {
     const products = await getProducts();
@@ -42,18 +46,22 @@ export default function ManageProducts() {
     const [clientClass, setClientClass] = useState("");
 
     useEffect(() => {
+        // Set the client-side classes after the component mounts
         const deviceClasses = [
             "dx-device-phone",
             "dx-device-mobile",
             "dx-device-ios",
             "dx-device-ios-16",
         ];
-        setClientClass(deviceClasses.join(" "));
-        setIsClient(true);
+        setClientClass(deviceClasses.join(" ")); // Assign the classes dynamically
+        setIsClient(true); // Indicate that the component is now rendered on the client-side
     }, []);
 
+    // Add the dynamic class to the main element after rendering on the client-side
+    const mainClass = `flex flex-wrap gap-6 p-4 md:p-6 lg:flex-nowrap ${clientClass}`;
+
     return (
-        <main className="flex flex-wrap gap-6 p-4 md:p-6 lg:flex-nowrap">
+        <main className={mainClass}>
             {/* Left Section: Product List */}
             <section className="w-full lg:w-3/5 xl:w-3/4 p-4 border-r bg-white shadow-lg rounded-md min-h-[400px] sm:min-h-[500px] md:min-h-[600px] lg:min-h-[700px] xl:min-h-[800px] flex flex-col">
                 <div className="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
@@ -120,14 +128,11 @@ export default function ManageProducts() {
                                 )}
                             />
                         </DataGrid>
-
-
                     )}
                 </div>
             </section>
 
-            {/* Right Section: Edit/Add Form */}
-            <section className="w-full sm:w-2/5 md:w-1/3 lg:w-2/5 xl:w-1/3 p-6 bg-white shadow-lg rounded-md">
+            <section className="w-full sm:w-2/5 md:w-1/3 lg:w-2/5 xl:w-1/3 p-6 bg-white shadow-lg rounded-md flex-grow max-w-full">
                 {isEditing || isAdding ? (
                     <div className="p-4">
                         <Outlet />

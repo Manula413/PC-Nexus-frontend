@@ -7,9 +7,9 @@ const ProductCard = ({ product }) => {
         <div className="flex flex-col items-center">
             {/* Product Card */}
             <div className="bg-white shadow-lg rounded-xl p-3 w-full relative flex justify-center transition-all duration-300 hover:shadow-xl">
-            <img className="w-56 h-56 object-contain rounded-lg transition-transform duration-300 hover:scale-105" src={product.image} alt={product.name} />
+                <img className="w-56 h-56 object-contain rounded-lg transition-transform duration-300 hover:scale-105" src={product.image} alt={product.name} />
 
-    
+
                 {/* Heart Icon (Like button) */}
                 <button className="absolute top-2 right-2 text-gray-500 hover:text-red-500 transition duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
@@ -17,17 +17,21 @@ const ProductCard = ({ product }) => {
                     </svg>
                 </button>
             </div>
-    
+
             {/* Product Details */}
             <div className="mt-4 w-full px-4">
                 <div className="flex justify-between items-center">
-                    <h3 className="text-sm font-semibold text-gray-800 line-clamp-2 h-10 overflow-hidden">{product.name}</h3>
-                    <p className="text-base font-bold text-gray-900">{product.price}</p>
+                    <h3 className="text-sm font-semibold text-gray-800 line-clamp-2 overflow-hidden flex-1 pr-2">
+                        {product.name}
+                    </h3>
+                    <p className="text-base font-bold text-gray-900 whitespace-nowrap">
+                        {product.price}
+                    </p>
                 </div>
-    
+
                 {/* Product Description */}
                 <p className="text-xs text-gray-500 mt-1 line-clamp-4 h-15 overflow-hidden">{product.description}</p>
-    
+
                 {/* Ratings */}
                 <div className="flex items-center mt-3">
                     {[...Array(fullStars)].map((_, i) => (
@@ -47,7 +51,7 @@ const ProductCard = ({ product }) => {
                     ))}
                     <span className="text-gray-500 text-xs ml-2">({product.reviews})</span>
                 </div>
-    
+
                 {/* Add to Cart Button */}
                 <button className="mt-4 w-full border border-gray-700 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-300 transform hover:scale-105">
                     Add to Cart
@@ -55,7 +59,7 @@ const ProductCard = ({ product }) => {
             </div>
         </div>
     );
-    
+
 
 };
 

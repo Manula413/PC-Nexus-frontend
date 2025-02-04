@@ -28,6 +28,10 @@ const Header = () => {
             <Link to="/test" className="hover:text-gray-300 transition">
               Contact
             </Link>
+
+            <Link to="/test2" className="hover:text-gray-300 transition">
+              Contact1
+            </Link>
           </div>
 
           {/* Mobile Navigation - Hamburger Menu */}

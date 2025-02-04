@@ -2,6 +2,9 @@ import { Links, Meta, Outlet, Scripts } from "@remix-run/react";
 import "./tailwind.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+if (typeof document !== "undefined") {
+  import("devextreme/dist/css/dx.light.css");
+}
 
 export default function Root() {
   return (

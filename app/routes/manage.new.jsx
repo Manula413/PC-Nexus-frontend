@@ -1,6 +1,14 @@
+import { useEffect, useState } from "react";
+import { Form } from '@remix-run/react';
+import TextBox from 'devextreme-react/text-box';
+import TextArea from 'devextreme-react/text-area';
+import Button from 'devextreme-react/button';
+import Validator from 'devextreme-react/validator';
+import { RequiredRule, RangeRule } from 'devextreme-react/validator';
 import { json, redirect } from "@remix-run/node";
-import { Form } from "@remix-run/react";
-import { createProduct } from "../services/products.service";
+import { createProduct } from "../services/products.service"; // Assuming your service logic remains the same
+
+import 'devextreme/dist/css/dx.light.css';
 
 export const action = async ({ request }) => {
     try {
@@ -31,8 +39,15 @@ export const action = async ({ request }) => {
     }
 };
 
-
 export default function NewProduct() {
+    const [DxButton, setDxButton] = useState(null);
+
+    useEffect(() => {
+        import("devextreme-react/button").then((mod) => setDxButton(() => mod.default));
+    }, []);
+
+    if (!DxButton) return null; // Prevents SSR issues
+
     return (
         <section className="w-full p-4 bg-white shadow-lg rounded-md min-h-[500px]">
             <h1 className="text-3xl font-semibold mb-4 text-gray-800">Add New Product</h1>
@@ -40,107 +55,134 @@ export default function NewProduct() {
                 {/* Name */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700">Name:</label>
-                    <input
-                        type="text"
+                    <TextBox
                         name="name"
-                        required
                         placeholder="Product Name"
-                        className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
-                    />
+                        className="mt-1 w-full"
+                        stylingMode="outlined"
+                    >
+                        <Validator validationGroup="newProductForm">
+                            <RequiredRule message="Name is required" />
+                        </Validator>
+                    </TextBox>
                 </div>
 
                 {/* Price */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700">Price:</label>
-                    <input
-                        type="text"
+                    <TextBox
                         name="price"
-                        required
                         placeholder="Product Price"
-                        className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
-                    />
+                        className="mt-1 w-full"
+                        stylingMode="outlined"
+                    >
+                        <Validator validationGroup="newProductForm">
+                            <RequiredRule message="Price is required" />
+                        </Validator>
+                    </TextBox>
                 </div>
 
                 {/* Description */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700">Description:</label>
-                    <textarea
+                    <TextArea
                         name="description"
-                        required
                         placeholder="Product Description"
-                        className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
-                    />
+                        className="mt-1 w-full"
+                        stylingMode="outlined"
+                    >
+                        <Validator validationGroup="newProductForm">
+                            <RequiredRule message="Description is required" />
+                        </Validator>
+                    </TextArea>
                 </div>
 
                 {/* Image URL */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700">Image URL:</label>
-                    <input
-                        type="text"
+                    <TextBox
                         name="image"
-                        required
                         placeholder="Image URL"
-                        className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
-                    />
+                        className="mt-1 w-full"
+                        stylingMode="outlined"
+                    >
+                        <Validator validationGroup="newProductForm">
+                            <RequiredRule message="Image URL is required" />
+                        </Validator>
+                    </TextBox>
                 </div>
 
                 {/* Rating */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700">Rating:</label>
-                    <input
-                        type="number"
+                    <TextBox
                         name="rating"
-                        required
-                        step="0.1"
-                        min="0"
-                        max="5"
                         placeholder="Rating"
-                        className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
-                    />
+                        type="number"
+                        className="mt-1 w-full"
+                        stylingMode="outlined"
+                    >
+                        <Validator validationGroup="newProductForm">
+                            <RequiredRule message="Rating is required" />
+                            <RangeRule message="Rating must be between 0 and 5" min={0} max={5} />
+                        </Validator>
+                    </TextBox>
                 </div>
 
                 {/* Reviews */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700">Reviews:</label>
-                    <input
-                        type="number"
+                    <TextBox
                         name="reviews"
-                        required
                         placeholder="Number of Reviews"
-                        className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
-                    />
+                        type="number"
+                        className="mt-1 w-full"
+                        stylingMode="outlined"
+                    >
+                        <Validator validationGroup="newProductForm">
+                            <RequiredRule message="Number of reviews is required" />
+                        </Validator>
+                    </TextBox>
                 </div>
 
                 {/* Category */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700">Category:</label>
-                    <input
-                        type="text"
+                    <TextBox
                         name="category"
-                        required
                         placeholder="Product Category"
-                        className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
-                    />
+                        className="mt-1 w-full"
+                        stylingMode="outlined"
+                    >
+                        <Validator validationGroup="newProductForm">
+                            <RequiredRule message="Category is required" />
+                        </Validator>
+                    </TextBox>
                 </div>
 
                 {/* Brand */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700">Brand:</label>
-                    <input
-                        type="text"
+                    <TextBox
                         name="brand"
-                        required
                         placeholder="Brand Name"
-                        className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
-                    />
+                        className="mt-1 w-full"
+                        stylingMode="outlined"
+                    >
+                        <Validator validationGroup="newProductForm">
+                            <RequiredRule message="Brand is required" />
+                        </Validator>
+                    </TextBox>
                 </div>
 
-                <button
-                    type="submit"
-                    className="border border-green-600 text-green-600 px-4 py-2 rounded-lg hover:bg-green-100 transition duration-300 transform hover:scale-105"
-                >
-                    Add Product
-                </button>
+                <Button
+                    type="default" // "default" is the basic button type
+                    text="Add Product"
+                    className="mt-4 w-full border border-green-600 text-green-600 px-4 py-2 rounded-lg hover:bg-green-100 transition duration-300 transform hover:scale-105"
+                    useSubmitBehavior={true} // This will ensure the button submits the form
+                />
+
+
             </Form>
         </section>
     );
