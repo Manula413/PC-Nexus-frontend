@@ -27,7 +27,6 @@ export default function ProductDisplay() {
     const [products, setProducts] = useState(initialProducts);
     const [page, setPage] = useState(2); 
 
-    
     useEffect(() => {
         if (fetcher.data?.products) {
             setProducts(fetcher.data.products);
@@ -41,8 +40,10 @@ export default function ProductDisplay() {
         fetcher.submit(formData, { method: "post" }); 
         setPage((prev) => prev + 1); 
     };
+
     return (
         <main className="p-8 bg-white">
+
             {/* Featured Brands Section */}
             <h2 className="text-3xl font-bold text-gray-800 text-center mb-8">Today's Featured Brands</h2>
             <LogoCarousel /> <br/>
@@ -68,5 +69,4 @@ export default function ProductDisplay() {
             </div>
         </main>
     );
-
 }

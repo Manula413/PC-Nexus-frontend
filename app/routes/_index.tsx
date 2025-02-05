@@ -1,8 +1,8 @@
 import { Links, Link, Meta, Scripts } from "@remix-run/react";
 import { json } from "@remix-run/node";
-import { useLoaderData, useFetcher } from "@remix-run/react";
-import { getLogos, getProducts } from "../services/products.service";
-import "../tailwind.css";
+import { useLoaderData } from "@remix-run/react";
+import { getProducts } from "../services/products.service";
+import "../tailwind.css"; 
 
 
 type Product = {
@@ -23,17 +23,16 @@ type LoaderData = {
 
 export const loader = async () => {
     const products: Product[] = await getProducts(1, 4);
-    return json<LoaderData>({ products });
-}
+    return json({ products }); 
+};
 
 
 export default function Index() {
-    const { products } = useLoaderData<LoaderData>();
+    const loaderData = useLoaderData<typeof loader>();
+    const { products } = loaderData; 
 
     return (
         <div className="bg-white text-black">
-
-
             {/* Hero Section */}
             <section className="bg-gray-800 text-white py-24">
                 <div className="max-w-screen-xl mx-auto flex flex-col items-center text-center px-4">
@@ -87,9 +86,6 @@ export default function Index() {
                     </div>
                 </div>
             </section>
-
-
         </div>
     );
-
 }

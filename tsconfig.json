@@ -21,6 +21,9 @@
     "allowJs": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "noImplicitAny":true,
+    "strictNullChecks":true,
+    "strictFunctionTypes":true,
     "baseUrl": ".",
     "paths": {
       "~/*": ["./app/*"]

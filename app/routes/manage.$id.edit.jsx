@@ -7,7 +7,7 @@ import TextArea from "devextreme-react/text-area";
 import Validator, { RequiredRule, RangeRule } from "devextreme-react/validator";
 
 export const loader = async ({ params }) => {
-    const id = params.id;  // Ensure params.id is properly received
+    const id = params.id;
     if (!id) {
         throw new Response("Missing ID", { status: 400 });
     }
@@ -62,7 +62,12 @@ export default function EditProduct() {
                 {/* Name */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700">Name:</label>
-                    <TextBox name="name" defaultValue={product.name} className="mt-1 w-full" stylingMode="outlined">
+                    <TextBox
+                        name="name"
+                        defaultValue={product.name}
+                        className="mt-1 w-full"
+                        stylingMode="outlined"
+                    >
                         <Validator validationGroup="editProductForm">
                             <RequiredRule message="Name is required" />
                         </Validator>
@@ -72,7 +77,12 @@ export default function EditProduct() {
                 {/* Price */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700">Price:</label>
-                    <TextBox name="price" defaultValue={product.price} className="mt-1 w-full" stylingMode="outlined">
+                    <TextBox
+                        name="price"
+                        defaultValue={product.price}
+                        className="mt-1 w-full"
+                        stylingMode="outlined"
+                    >
                         <Validator validationGroup="editProductForm">
                             <RequiredRule message="Price is required" />
                         </Validator>
@@ -82,7 +92,12 @@ export default function EditProduct() {
                 {/* Description */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700">Description:</label>
-                    <TextArea name="description" defaultValue={product.description} className="mt-1 w-full" stylingMode="outlined">
+                    <TextArea
+                        name="description"
+                        defaultValue={product.description}
+                        className="mt-1 w-full"
+                        stylingMode="outlined"
+                    >
                         <Validator validationGroup="editProductForm">
                             <RequiredRule message="Description is required" />
                         </Validator>
@@ -92,7 +107,12 @@ export default function EditProduct() {
                 {/* Image URL */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700">Image URL:</label>
-                    <TextBox name="image" defaultValue={product.image} className="mt-1 w-full" stylingMode="outlined">
+                    <TextBox
+                        name="image"
+                        defaultValue={product.image}
+                        className="mt-1 w-full"
+                        stylingMode="outlined"
+                    >
                         <Validator validationGroup="editProductForm">
                             <RequiredRule message="Image URL is required" />
                         </Validator>
@@ -102,7 +122,13 @@ export default function EditProduct() {
                 {/* Rating */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700">Rating:</label>
-                    <TextBox name="rating" defaultValue={product.rating} type="number" className="mt-1 w-full" stylingMode="outlined">
+                    <TextBox
+                        name="rating"
+                        defaultValue={product.rating}
+                        type="number"
+                        className="mt-1 w-full"
+                        stylingMode="outlined"
+                    >
                         <Validator validationGroup="editProductForm">
                             <RequiredRule message="Rating is required" />
                             <RangeRule message="Rating must be between 0 and 5" min={0} max={5} />
@@ -113,7 +139,13 @@ export default function EditProduct() {
                 {/* Reviews */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700">Reviews:</label>
-                    <TextBox name="reviews" defaultValue={product.reviews} type="number" className="mt-1 w-full" stylingMode="outlined">
+                    <TextBox
+                        name="reviews"
+                        defaultValue={product.reviews}
+                        type="number"
+                        className="mt-1 w-full"
+                        stylingMode="outlined"
+                    >
                         <Validator validationGroup="editProductForm">
                             <RequiredRule message="Number of reviews is required" />
                         </Validator>
@@ -123,7 +155,12 @@ export default function EditProduct() {
                 {/* Category */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700">Category:</label>
-                    <TextBox name="category" defaultValue={product.category} className="mt-1 w-full" stylingMode="outlined">
+                    <TextBox
+                        name="category"
+                        defaultValue={product.category}
+                        className="mt-1 w-full"
+                        stylingMode="outlined"
+                    >
                         <Validator validationGroup="editProductForm">
                             <RequiredRule message="Category is required" />
                         </Validator>
@@ -133,7 +170,12 @@ export default function EditProduct() {
                 {/* Brand */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700">Brand:</label>
-                    <TextBox name="brand" defaultValue={product.brand} className="mt-1 w-full" stylingMode="outlined">
+                    <TextBox
+                        name="brand"
+                        defaultValue={product.brand}
+                        className="mt-1 w-full"
+                        stylingMode="outlined"
+                    >
                         <Validator validationGroup="editProductForm">
                             <RequiredRule message="Brand is required" />
                         </Validator>
@@ -143,7 +185,7 @@ export default function EditProduct() {
                 <DxButton
                     text="Update"
                     type="default"
-                     stylingMode="outlined"
+                    stylingMode="outlined"
                     className="mt-4 w-full border border-blue-600 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition duration-300 transform hover:scale-105"
                     useSubmitBehavior={true}
                 />

@@ -184,8 +184,6 @@ export default function NewProduct() {
                     style={{ borderColor: '#10B981', color: '#10B981' }} 
                     useSubmitBehavior={true} 
                 />
-
-
             </Form>
         </section>
     );
