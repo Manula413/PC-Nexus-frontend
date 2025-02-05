@@ -1,15 +1,5 @@
 import prisma from "../utils/prisma.server";
 
-export const getProducts = async (page?: number, limit?: number): Promise<Product[]> => {
-  return prisma.product.findMany({
-    ...(page && limit ? { skip: (page - 1) * limit, take: limit } : {}),
-  });
-};
-
-export const getLogos = async (): Promise<any[]> => {
-  return prisma.logo.findMany();
-};
-
 export interface Product {
   id: number;
   name: string;
@@ -22,21 +12,57 @@ export interface Product {
   brand: string;
 }
 
-// Define a type for creating/updating products (exclude 'id' for creation)
+interface Logo {
+  id: number;
+  url: string;
+}
+
+
+export const getProducts = async (page?: number, limit?: number) => {
+  return await prisma.product.findMany({
+    ...(page && limit ? { skip: (page - 1) * limit, take: limit } : {}),
+  });
+};
+
+
+export const getLogos = async (): Promise<Logo[]> => {
+  return prisma.logo.findMany();
+};
+
 export type ProductInput = Omit<Product, "id">;
 
 export const createProduct = async (data: ProductInput): Promise<Product> => {
-  return prisma.product.create({ data });
+  try {
+    return await prisma.product.create({ data });
+  } catch (error) {
+    console.error('Error creating product:', error);
+    throw new Error('Failed to create product');
+  }
 };
 
 export const getProductById = async (id: number): Promise<Product | null> => {
-  return prisma.product.findUnique({ where: { id } });
+  try {
+    return await prisma.product.findUnique({ where: { id } });
+  } catch (error) {
+    console.error('Error fetching product by ID:', error);
+    throw new Error('Failed to fetch product');
+  }
 };
 
 export const updateProduct = async (id: number, data: Partial<ProductInput>): Promise<Product> => {
-  return prisma.product.update({ where: { id }, data });
+  try {
+    return await prisma.product.update({ where: { id }, data });
+  } catch (error) {
+    console.error('Error updating product:', error);
+    throw new Error('Failed to update product');
+  }
 };
 
 export const deleteProduct = async (id: number): Promise<Product> => {
-  return prisma.product.delete({ where: { id } });
+  try {
+    return await prisma.product.delete({ where: { id } });
+  } catch (error) {
+    console.error('Error deleting product:', error);
+    throw new Error('Failed to delete product');
+  }
 };

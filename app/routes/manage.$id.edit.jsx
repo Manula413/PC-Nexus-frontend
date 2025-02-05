@@ -28,14 +28,14 @@ export const action = async ({ request, params }) => {
     const description = formData.get("description");
     const image = formData.get("image");
 
-    // Parse rating and reviews to numbers
+    
     const rating = parseFloat(formData.get("rating"));
     const reviews = parseInt(formData.get("reviews"), 10);
 
     const category = formData.get("category");
     const brand = formData.get("brand");
 
-    // Ensure rating and reviews are valid numbers
+    
     if (isNaN(rating) || isNaN(reviews)) {
         throw new Response("Invalid rating or reviews value", { status: 400 });
     }
@@ -186,10 +186,11 @@ export default function EditProduct() {
                     text="Update"
                     type="default"
                     stylingMode="outlined"
-                    className="mt-4 w-full border border-blue-600 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition duration-300 transform hover:scale-105"
+                    className="mt-4 w-full border border-blue-600 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition duration-300 transform hover:scale-105 focus:outline-none"
                     useSubmitBehavior={true}
                 />
             </Form>
         </section>
     );
 }
+

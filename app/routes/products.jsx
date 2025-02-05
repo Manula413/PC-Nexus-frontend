@@ -43,11 +43,11 @@ export default function ProductDisplay() {
 
     return (
         <main className="p-8 bg-white">
-
+    
             {/* Featured Brands Section */}
             <h2 className="text-3xl font-bold text-gray-800 text-center mb-8">Today's Featured Brands</h2>
-            <LogoCarousel /> <br/>
-
+            <LogoCarousel /> <br />
+    
             {/* Featured Items Section */}
             <h2 className="text-3xl font-bold text-gray-800 text-center mb-8">Today's Featured Items</h2>
             <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
@@ -55,13 +55,13 @@ export default function ProductDisplay() {
                     <ProductCard key={product.id} product={product} />
                 ))}
             </div>
-
+    
             {/* Load More Button */}
             <div className="mt-10 text-center">
                 <button
                     type="button"
                     onClick={loadMore}
-                    className={`bg-gray-900 text-white px-8 py-3 rounded-lg shadow-md transition-all duration-300 ${fetcher.state === "submitting" ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-700 hover:shadow-lg transform hover:scale-105"}`}
+                    className={`bg-gray-900 text-white px-8 py-3 rounded-lg shadow-md transition-all duration-300 focus:outline-none ${fetcher.state === "submitting" ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-700 hover:shadow-lg transform hover:scale-105"}`}
                     disabled={fetcher.state === "submitting"}
                 >
                     {fetcher.state === "submitting" ? "Loading..." : "View More"}

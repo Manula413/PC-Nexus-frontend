@@ -6,7 +6,7 @@ import Button from 'devextreme-react/button';
 import Validator from 'devextreme-react/validator';
 import { RequiredRule, RangeRule } from 'devextreme-react/validator';
 import { json, redirect } from "@remix-run/node";
-import { createProduct } from "../services/products.service"; // Assuming your service logic remains the same
+import { createProduct } from "../services/products.service"; 
 
 import 'devextreme/dist/css/dx.light.css';
 import { Font } from "devextreme-react/cjs/bar-gauge";
@@ -24,7 +24,7 @@ export const action = async ({ request }) => {
         const ratingValue = formData.get("rating");
         const reviewsValue = formData.get("reviews");
 
-        // Ensure rating and reviews are valid
+       
         const rating = ratingValue ? parseFloat(ratingValue) : 0;
         const reviews = reviewsValue ? parseInt(reviewsValue, 10) : 0;
 
@@ -50,8 +50,8 @@ export default function NewProduct() {
     if (!DxButton) return null; // Prevents SSR issues
 
     return (
-        <section className="w-full p-4 bg-white shadow-lg rounded-md min-h-[500px]">
-            <h1 className="text-3xl font-semibold mb-4 text-gray-800">Add New Product</h1>
+        <section className="w-full p-6 bg-white shadow-lg rounded-md min-h-[500px]">
+            <h1 className="text-3xl font-semibold mb-6 text-gray-800">Add New Product</h1>
             <Form method="post" className="space-y-6">
                 {/* Name */}
                 <div>
@@ -177,14 +177,14 @@ export default function NewProduct() {
                 </div>
 
                 <Button
-                    type="default" // "default" is the basic button type
+                    type="default" 
                     text="Add Product"
                     stylingMode="outlined"
-                    className="mt-4 w-full border text-green-600 px-4 py-2 rounded-lg hover:bg-green-100 transition duration-300 transform hover:scale-105"
-                    style={{ borderColor: '#10B981', color: '#10B981' }} 
-                    useSubmitBehavior={true} 
+                    className="mt-4 w-full border-2 border-green-600 text-green-600 px-6 py-3 rounded-lg hover:bg-green-100 transition duration-300 transform hover:scale-105"
+                    useSubmitBehavior={true}
                 />
             </Form>
         </section>
     );
 }
+
