@@ -18,7 +18,8 @@
     "types": [
       "@remix-run/node",
       "vite/client",
-      "vitest/globals"
+      "vitest/globals",
+      "vitest"
     ],
     "isolatedModules": true,
     "esModuleInterop": true,
