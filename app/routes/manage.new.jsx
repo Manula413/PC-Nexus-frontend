@@ -1,16 +1,22 @@
 import { useEffect, useState } from "react";
-import { Form } from '@remix-run/react';
-import TextBox from 'devextreme-react/text-box';
-import TextArea from 'devextreme-react/text-area';
-import Button from 'devextreme-react/button';
-import Validator from 'devextreme-react/validator';
-import { RequiredRule, RangeRule } from 'devextreme-react/validator';
+import { Form } from "@remix-run/react";
+import TextBox from "devextreme-react/text-box";
+import TextArea from "devextreme-react/text-area";
+import Button from "devextreme-react/button";
+import Validator from "devextreme-react/validator";
+import { RequiredRule, RangeRule } from "devextreme-react/validator";
 import { json, redirect } from "@remix-run/node";
-import { createProduct } from "../services/products.service"; 
+import { createProduct } from "../services/products.service";
 
-import 'devextreme/dist/css/dx.light.css';
+import "devextreme/dist/css/dx.light.css";
 import { Font } from "devextreme-react/cjs/bar-gauge";
 
+/**
+ * Handles the creation of a new product via form submission.
+ * @param {object} params - The action parameters.
+ * @param {Request} params.request - The HTTP request object containing form data.
+ * @returns {Promise<Response>} A redirect response on success or a JSON error response.
+ */
 export const action = async ({ request }) => {
     try {
         const formData = await request.formData();
@@ -24,7 +30,6 @@ export const action = async ({ request }) => {
         const ratingValue = formData.get("rating");
         const reviewsValue = formData.get("reviews");
 
-       
         const rating = ratingValue ? parseFloat(ratingValue) : 0;
         const reviews = reviewsValue ? parseInt(reviewsValue, 10) : 0;
 
@@ -40,9 +45,16 @@ export const action = async ({ request }) => {
     }
 };
 
+/**
+ * Component for adding a new product.
+ * @returns {JSX.Element | null} The NewProduct component or null if DevExtreme Button is not yet loaded.
+ */
 export default function NewProduct() {
     const [DxButton, setDxButton] = useState(null);
 
+    /**
+     * Dynamically imports DevExtreme Button to prevent SSR issues.
+     */
     useEffect(() => {
         import("devextreme-react/button").then((mod) => setDxButton(() => mod.default));
     }, []);
@@ -177,7 +189,7 @@ export default function NewProduct() {
                 </div>
 
                 <Button
-                    type="default" 
+                    type="default"
                     text="Add Product"
                     stylingMode="outlined"
                     className="mt-4 w-full border-2 border-green-600 text-green-600 px-6 py-3 rounded-lg hover:bg-green-100 transition duration-300 transform hover:scale-105"

@@ -1,40 +1,53 @@
-import { useState, useEffect } from "react"; 
+import { useState, useEffect } from "react";
 import { json, redirect } from "@remix-run/node";
 import { useLoaderData, Form, Link, Outlet, useParams, useLocation } from "@remix-run/react";
 import { getProducts, deleteProduct, createProduct } from "../services/products.service";
 import { DataGrid, Column } from 'devextreme-react/data-grid';
 
-
-import 'devextreme/dist/css/dx.light.css'; 
+import 'devextreme/dist/css/dx.light.css';
 if (typeof document !== "undefined") {
-    import("devextreme/dist/css/dx.light.css");
+  import("devextreme/dist/css/dx.light.css");
 }
 
+/**
+ * Loader function to fetch the list of products from the database.
+ * @returns {Promise<Response>} A JSON response containing the list of products.
+ */
 export const loader = async () => {
-    const products = await getProducts();
-    return json({ products });
+  const products = await getProducts();
+  return json({ products });
 };
 
+/**
+ * Handles form actions for managing products (adding or deleting).
+ * @param {object} params - The action parameters.
+ * @param {Request} params.request - The HTTP request object containing form data.
+ * @returns {Promise<Response | null>} A redirect response on success or null if no action is performed.
+ */
 export const action = async ({ request }) => {
-    const formData = await request.formData();
-    const actionType = formData.get("actionType");
-    const id = formData.get("id");
+  const formData = await request.formData();
+  const actionType = formData.get("actionType");
+  const id = formData.get("id");
 
-    if (actionType === "delete" && id) {
-        await deleteProduct(Number(id));
-        return redirect("/manage");
-    }
+  if (actionType === "delete" && id) {
+    await deleteProduct(Number(id));
+    return redirect("/manage");
+  }
 
-    if (actionType === "add") {
-        const name = formData.get("name");
-        const price = formData.get("price");
-        await createProduct({ name, price });
-        return redirect("/manage");
-    }
+  if (actionType === "add") {
+    const name = formData.get("name");
+    const price = formData.get("price");
+    await createProduct({ name, price });
+    return redirect("/manage");
+  }
 
-    return null;
+  return null;
 };
 
+/**
+ * Component for managing products, including listing, adding, and deleting products.
+ * @returns {JSX.Element} The ManageProducts component.
+ */
 export default function ManageProducts() {
   const { products } = useLoaderData();
   const params = useParams();
@@ -45,6 +58,9 @@ export default function ManageProducts() {
   const [isClient, setIsClient] = useState(false);
   const [clientClass, setClientClass] = useState("");
 
+  /**
+   * Effect to determine the client's device class for styling.
+   */
   useEffect(() => {
     const deviceClasses = [
       "dx-device-phone",

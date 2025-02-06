@@ -6,6 +6,14 @@ import TextBox from "devextreme-react/text-box";
 import TextArea from "devextreme-react/text-area";
 import Validator, { RequiredRule, RangeRule } from "devextreme-react/validator";
 
+/**
+ * Loader function to fetch product details based on the provided ID.
+ * @param {object} params - The loader parameters.
+ * @param {object} params.params - The request parameters.
+ * @param {string} params.params.id - The product ID.
+ * @returns {Promise<Response>} A JSON response containing the product data or an error response.
+ * @throws {Response} Throws a 400 error if ID is missing or a 404 error if the product is not found.
+ */
 export const loader = async ({ params }) => {
     const id = params.id;
     if (!id) {
@@ -21,6 +29,15 @@ export const loader = async ({ params }) => {
     return json({ product });
 };
 
+/**
+ * Action function to update a product's details.
+ * @param {object} params - The action parameters.
+ * @param {Request} params.request - The HTTP request object containing form data.
+ * @param {object} params.params - The request parameters.
+ * @param {string} params.params.id - The product ID.
+ * @returns {Promise<Response>} A redirect response on success or an error response on failure.
+ * @throws {Response} Throws a 400 error if rating or reviews are invalid.
+ */
 export const action = async ({ request, params }) => {
     const formData = await request.formData();
     const name = formData.get("name");
@@ -28,14 +45,12 @@ export const action = async ({ request, params }) => {
     const description = formData.get("description");
     const image = formData.get("image");
 
-    
     const rating = parseFloat(formData.get("rating"));
     const reviews = parseInt(formData.get("reviews"), 10);
 
     const category = formData.get("category");
     const brand = formData.get("brand");
 
-    
     if (isNaN(rating) || isNaN(reviews)) {
         throw new Response("Invalid rating or reviews value", { status: 400 });
     }
@@ -43,12 +58,15 @@ export const action = async ({ request, params }) => {
     await updateProduct(Number(params.id), { name, price, description, image, rating, reviews, category, brand });
 
     return redirect("/manage");
-};
+}
 
 export default function EditProduct() {
     const { product } = useLoaderData();
     const [DxButton, setDxButton] = useState(null);
 
+    /**
+   * Dynamically imports DevExtreme Button to prevent SSR issues.
+   */
     useEffect(() => {
         import("devextreme-react/button").then((mod) => setDxButton(() => mod.default));
     }, []);

@@ -6,26 +6,41 @@ import LogoCarousel from '../components/logocarousel';
 
 import { useState, useEffect } from "react";
 
+/**
+ * Loader function to fetch initial products and logos.
+ * @returns {Promise<Response>} A JSON response containing initial products and logos.
+ */
 export const loader = async () => {
-    const products = await getProducts(1, 4); 
+    const products = await getProducts(1, 4); // Fetch the first 4 products
     const logos = await getLogos();
     return json({ products, logos });
 };
 
+/**
+ * Action function to fetch more products based on the requested page.
+ * @param {object} params - The action parameters.
+ * @param {Request} params.request - The HTTP request object containing form data.
+ * @returns {Promise<Response>} A JSON response containing additional products.
+ */
 export const action = async ({ request }) => {
     const formData = await request.formData();
     const page = Number(formData.get("page"));
 
-    const products = await getProducts(1, page * 4); 
+    const products = await getProducts(1, page * 4); // Fetch more products based on page count
     return json({ products });
 };
 
+/**
+ * ProductDisplay component - Displays a list of products with a "Load More" functionality.
+ * @returns {JSX.Element} The rendered product display component.
+ */
+
 export default function ProductDisplay() {
     const { products: initialProducts, logos } = useLoaderData();
-    const fetcher = useFetcher(); 
+    const fetcher = useFetcher(); // Handles incremental data fetching
 
     const [products, setProducts] = useState(initialProducts);
-    const [page, setPage] = useState(2); 
+    const [page, setPage] = useState(2); // Starts at page 2 for "Load More" functionality
 
     useEffect(() => {
         if (fetcher.data?.products) {
@@ -33,21 +48,24 @@ export default function ProductDisplay() {
         }
     }, [fetcher.data]);
 
+    /**
+     * Handles loading more products when the button is clicked.
+     */
     const loadMore = () => {
         const formData = new FormData();
-        formData.append("page", page); 
+        formData.append("page", page);
 
-        fetcher.submit(formData, { method: "post" }); 
-        setPage((prev) => prev + 1); 
+        fetcher.submit(formData, { method: "post" });
+        setPage((prev) => prev + 1); // Increment page number for next load
     };
 
     return (
         <main className="p-8 bg-white">
-    
+
             {/* Featured Brands Section */}
             <h2 className="text-3xl font-bold text-gray-800 text-center mb-8">Today's Featured Brands</h2>
             <LogoCarousel /> <br />
-    
+
             {/* Featured Items Section */}
             <h2 className="text-3xl font-bold text-gray-800 text-center mb-8">Today's Featured Items</h2>
             <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
@@ -55,7 +73,7 @@ export default function ProductDisplay() {
                     <ProductCard key={product.id} product={product} />
                 ))}
             </div>
-    
+
             {/* Load More Button */}
             <div className="mt-10 text-center">
                 <button
