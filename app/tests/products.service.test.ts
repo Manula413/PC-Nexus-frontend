@@ -155,5 +155,5 @@ describe('Product Service', () => {
     expect(prisma.product.delete).toHaveBeenCalledWith({ where: { id: 1 } });
     expect(deletedProduct).toEqual(mockProduct);
   });
-  
+
 });
