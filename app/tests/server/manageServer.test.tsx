@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitest/config';
 import { describe, it, expect, beforeEach } from 'vitest';
 import { vi } from 'vitest'
-import prisma from '../utils/prisma.server';
+import prisma from '../../utils/prisma.server';
 import {
   getProducts,
   getLogos,
@@ -10,10 +10,10 @@ import {
   updateProduct,
   deleteProduct,
   ProductInput
-} from '../services/products.service';
+} from '../../services/products.service';
 
 // Properly mock Prisma methods for Vitest
-vi.mock('../utils/prisma.server', () => {
+vi.mock('../../utils/prisma.server', () => {
   return {
     default: {
       product: {

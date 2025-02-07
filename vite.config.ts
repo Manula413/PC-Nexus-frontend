@@ -9,16 +9,13 @@ declare module "@remix-run/node" {
 }
 
 export default defineConfig({
-  plugins: [
-    remix({
-      future: {
-        v3_fetcherPersist: true,
-        v3_relativeSplatPath: true,
-        v3_throwAbortReason: true,
-        v3_singleFetch: true,
-        v3_lazyRouteDiscovery: true,
-      },
-    }),
-    tsconfigPaths(),
-  ],
+  plugins: [!process.env.VITEST && remix()],
+
+  test: {
+    environment: 'jsdom',  // default for React component tests
+    globals: true,
+    setupFiles: './setupTests.ts', // any global setup if needed
+    include: ['app/tests/client/**/*.{test,spec}.ts{,x}'], // Include only client-side test files
+    exclude: ['app/tests/server/**/*.{test,spec}.ts{,x}'], // Exclude server-side test files
+  },
 });
