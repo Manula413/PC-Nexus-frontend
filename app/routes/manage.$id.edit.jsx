@@ -14,20 +14,34 @@ import Validator, { RequiredRule, RangeRule } from "devextreme-react/validator";
  * @returns {Promise<Response>} A JSON response containing the product data or an error response.
  * @throws {Response} Throws a 400 error if ID is missing or a 404 error if the product is not found.
  */
+
 export const loader = async ({ params }) => {
-    const id = params.id;
+    const { id } = params;
+
     if (!id) {
         throw new Response("Missing ID", { status: 400 });
     }
 
-    const product = await getProductById(Number(id));
-
-    if (!product) {
-        throw new Response("Product Not Found", { status: 404 });
+    try {
+        const product = await getProductById(Number(id));
+        
+        console.log("Loaded product:", product);  // Debugging line
+        
+        if (!product) {
+            // Check if product is null or undefined and throw the 404 error
+            throw new Response("Product Not Found", { status: 404 });
+        }
+        
+        return json({ product });
+    } catch (error) {
+        // Catch unexpected errors and log them
+        console.error("Error loading product:", error);
+        throw new Response("Internal Server Error", { status: 404 });
     }
-
-    return json({ product });
 };
+
+
+
 
 /**
  * Action function to update a product's details.
