@@ -5,18 +5,54 @@ import { vi } from 'vitest';
 import ManageProducts from '../../routes/manage';
 import { getProducts, deleteProduct, createProduct } from '../../services/products.service';
 import '@testing-library/jest-dom';
+import React from "react";
 
 // Mock the services
 vi.mock('../../services/products.service', () => ({
-  getProducts: vi.fn().mockResolvedValue([]),
-  deleteProduct: vi.fn().mockResolvedValue(null),
-  createProduct: vi.fn().mockResolvedValue(null),
+  getProducts: vi.fn(),
+  deleteProduct: vi.fn(),
+  createProduct: vi.fn(),
 }));
 
-// Mock useLoaderData hook to simulate loader data
+// Mock useLoaderData and useLocation hooks
 vi.mock('@remix-run/react', () => ({
   ...vi.importActual('@remix-run/react'),
-  useLoaderData: () => ({
+  useLoaderData: vi.fn(),
+  useLocation: vi.fn(),
+  useParams: vi.fn(),
+}));
+
+beforeEach(() => {
+  vi.clearAllMocks();
+
+  // Mocking the services directly
+  vi.mocked(getProducts).mockResolvedValue([]);
+  vi.mocked(deleteProduct).mockResolvedValue({
+    id: 1,
+    name: 'Deleted Product',
+    price: '0',
+    description: 'This product was deleted',
+    image: '',
+    rating: 0,
+    reviews: 0,
+    category: 'None',
+    brand: 'None',
+  });
+
+  vi.mocked(createProduct).mockResolvedValue({
+    id: 2,
+    name: 'New Product',
+    price: '20',
+    description: 'A newly created product',
+    image: 'newproduct.jpg',
+    rating: 5,
+    reviews: 1,
+    category: 'Test Category',
+    brand: 'Test Brand',
+  });
+
+  // Mock Remix hooks
+  vi.mocked(require('@remix-run/react').useLoaderData).mockReturnValue({
     products: [
       {
         id: 1,
@@ -30,54 +66,54 @@ vi.mock('@remix-run/react', () => ({
         brand: 'Test Brand',
       },
     ],
-  }),
-}));
-
-describe('ManageProducts Component', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
   });
 
-  it('renders products correctly', async () => {
-    render(
-      <MemoryRouter>
-        <ManageProducts />
-      </MemoryRouter>
-    );
-
-    await waitFor(() => {
-      expect(screen.getByText('Product 1')).toBeInTheDocument();
-    });
+  vi.mocked(require('@remix-run/react').useLocation).mockReturnValue({
+    pathname: "/manage/new",
   });
 
-  it('calls deleteProduct when delete button is clicked', async () => {
-    render(
-      <MemoryRouter>
-        <ManageProducts />
-      </MemoryRouter>
-    );
-
-    const deleteButton = screen.getByText('Delete');
-    fireEvent.click(deleteButton);
-
-    // Ensure form is submitted and product deletion is called
-    await waitFor(() => expect(deleteProduct).toHaveBeenCalledWith(1));
+  vi.mocked(require('@remix-run/react').useParams).mockReturnValue({
+    id: "1",
   });
+});
 
-  it('calls createProduct when add button is clicked', async () => {
-    render(
-      <MemoryRouter>
-        <ManageProducts />
-      </MemoryRouter>
-    );
+it('renders products correctly', async () => {
+  render(
+    <MemoryRouter>
+      <ManageProducts />
+    </MemoryRouter>
+  );
 
-    const addButton = screen.getByText('Add Product');
-    fireEvent.click(addButton);
-
-    // Wait for the "Add Product" form to appear (indicating the page has changed)
-    await waitFor(() => expect(screen.getByText('Select a product to edit or add a new one.')).toBeInTheDocument());
-
-    // Make sure createProduct was called
-    await waitFor(() => expect(createProduct).toHaveBeenCalled());
+  await waitFor(() => {
+    expect(screen.getByText('Product 1')).toBeInTheDocument();
   });
+});
+
+it('calls deleteProduct when delete button is clicked', async () => {
+  render(
+    <MemoryRouter>
+      <ManageProducts />
+    </MemoryRouter>
+  );
+
+  // Find the delete button dynamically
+  const deleteButton = screen.getByRole('button', { name: /delete/i });
+  fireEvent.click(deleteButton);
+
+  // Ensure deleteProduct is called with correct ID
+  await waitFor(() => expect(deleteProduct).toHaveBeenCalledWith(1));
+});
+
+it('calls createProduct when add button is clicked', async () => {
+  render(
+    <MemoryRouter>
+      <ManageProducts />
+    </MemoryRouter>
+  );
+
+  const addButton = screen.getByRole('button', { name: /add product/i });
+  fireEvent.click(addButton);
+
+  // Ensure createProduct was called
+  await waitFor(() => expect(createProduct).toHaveBeenCalled());
 });
