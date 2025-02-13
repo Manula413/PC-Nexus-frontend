@@ -3,6 +3,7 @@ import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import react from "@vitejs/plugin-react";
 
+
 declare module "@remix-run/node" {
   interface Future {
     v3_singleFetch: true;
@@ -10,7 +11,7 @@ declare module "@remix-run/node" {
 }
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), remix()],
 
   test: {
     environment: 'jsdom',  // default for React component tests
