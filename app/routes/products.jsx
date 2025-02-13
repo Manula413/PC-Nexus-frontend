@@ -1,6 +1,6 @@
 import { json } from "@remix-run/node";
 import { useLoaderData, useFetcher } from "@remix-run/react";
-import { getLogos, getProducts } from "../services/products.service";
+import { getLogos } from "../services/products.service";
 import ProductCard from "../components/ProductCard";
 import LogoCarousel from '../components/logocarousel';
 
@@ -11,7 +11,8 @@ import { useState, useEffect } from "react";
  * @returns {Promise<Response>} A JSON response containing initial products and logos.
  */
 export const loader = async () => {
-    const products = await getProducts(1, 4); // Fetch the first 4 products
+    const response = await fetch("http://localhost:3000/products?page=1&limit=4"); // Replace with your NestJS API URL
+    const products = await response.json();
     const logos = await getLogos();
     return json({ products, logos });
 };
@@ -26,7 +27,8 @@ export const action = async ({ request }) => {
     const formData = await request.formData();
     const page = Number(formData.get("page"));
 
-    const products = await getProducts(1, page * 4); // Fetch more products based on page count
+    const response = await fetch(`http://localhost:3000/products?page=${page}&limit=4`);
+    const products = await response.json();
     return json({ products });
 };
 
@@ -34,7 +36,6 @@ export const action = async ({ request }) => {
  * ProductDisplay component - Displays a list of products with a "Load More" functionality.
  * @returns {JSX.Element} The rendered product display component.
  */
-
 export default function ProductDisplay() {
     const { products: initialProducts, logos } = useLoaderData();
     const fetcher = useFetcher(); // Handles incremental data fetching
@@ -44,7 +45,8 @@ export default function ProductDisplay() {
 
     useEffect(() => {
         if (fetcher.data?.products) {
-            setProducts(fetcher.data.products);
+            // Append the new products to the existing list
+            setProducts((prevProducts) => [...prevProducts, ...fetcher.data.products]);
         }
     }, [fetcher.data]);
 
@@ -53,7 +55,7 @@ export default function ProductDisplay() {
      */
     const loadMore = () => {
         const formData = new FormData();
-        formData.append("page", page);
+        formData.append("page", page.toString()); // Send the current page
 
         fetcher.submit(formData, { method: "post" });
         setPage((prev) => prev + 1); // Increment page number for next load
