@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
  * @returns {Promise<Response>} A JSON response containing initial products and logos.
  */
 export const loader = async () => {
-    const response = await fetch("http://localhost:3000/products?page=1&limit=4"); // Replace with your NestJS API URL
+    const response = await fetch("http://localhost:3000/products?page=1&limit=4"); 
     const products = await response.json();
     const logos = await getLogos();
     return json({ products, logos });
@@ -38,14 +38,14 @@ export const action = async ({ request }) => {
  */
 export default function ProductDisplay() {
     const { products: initialProducts, logos } = useLoaderData();
-    const fetcher = useFetcher(); // Handles incremental data fetching
+    const fetcher = useFetcher(); 
 
     const [products, setProducts] = useState(initialProducts);
-    const [page, setPage] = useState(2); // Starts at page 2 for "Load More" functionality
+    const [page, setPage] = useState(2); 
 
     useEffect(() => {
         if (fetcher.data?.products) {
-            // Append the new products to the existing list
+           
             setProducts((prevProducts) => [...prevProducts, ...fetcher.data.products]);
         }
     }, [fetcher.data]);
@@ -55,10 +55,10 @@ export default function ProductDisplay() {
      */
     const loadMore = () => {
         const formData = new FormData();
-        formData.append("page", page.toString()); // Send the current page
+        formData.append("page", page.toString()); 
 
         fetcher.submit(formData, { method: "post" });
-        setPage((prev) => prev + 1); // Increment page number for next load
+        setPage((prev) => prev + 1); 
     };
 
     return (
