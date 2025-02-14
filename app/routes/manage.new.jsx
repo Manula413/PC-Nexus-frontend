@@ -6,7 +6,7 @@ import Button from "devextreme-react/button";
 import Validator from "devextreme-react/validator";
 import { RequiredRule, RangeRule } from "devextreme-react/validator";
 import { json, redirect } from "@remix-run/node";
-import { createProduct } from "../services/products.service";
+
 
 import "devextreme/dist/css/dx.light.css";
 import { Font } from "devextreme-react/cjs/bar-gauge";
@@ -20,24 +20,34 @@ import { Font } from "devextreme-react/cjs/bar-gauge";
 export const action = async ({ request }) => {
     try {
         const formData = await request.formData();
-        const name = formData.get("name")?.trim();
-        const price = formData.get("price")?.trim();
-        const description = formData.get("description")?.trim() || "";
-        const image = formData.get("image")?.trim() || "";
-        const category = formData.get("category")?.trim() || "";
-        const brand = formData.get("brand")?.trim() || "";
+        const productData = {
+            name: formData.get("name")?.trim(),
+            price: formData.get("price")?.trim(),
+            description: formData.get("description")?.trim() || "",
+            image: formData.get("image")?.trim() || "",
+            category: formData.get("category")?.trim() || "",
+            brand: formData.get("brand")?.trim() || "",
+            rating: formData.get("rating") ? parseFloat(formData.get("rating")) : 0,
+            reviews: formData.get("reviews") ? parseInt(formData.get("reviews"), 10) : 0,
+        };
 
-        const ratingValue = formData.get("rating");
-        const reviewsValue = formData.get("reviews");
-
-        const rating = ratingValue ? parseFloat(ratingValue) : 0;
-        const reviews = reviewsValue ? parseInt(reviewsValue, 10) : 0;
-
-        if (!name || !price) {
+        if (!productData.name || !productData.price) {
             return json({ error: "Name and Price are required." }, { status: 400 });
         }
 
-        await createProduct({ name, price, description, image, rating, reviews, category, brand });
+        const response = await fetch("http://localhost:3000/products", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(productData),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            return json({ error: errorData.message || "Failed to create product." }, { status: response.status });
+        }
+
         return redirect("/manage");
     } catch (error) {
         console.error("Error in manage.new action:", error);
