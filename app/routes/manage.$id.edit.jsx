@@ -1,10 +1,11 @@
 import { json, redirect } from "@remix-run/node";
 import { useLoaderData, Form } from "@remix-run/react";
-import { getProductById, updateProduct } from "../services/products.service";
 import { useState, useEffect } from "react";
 import TextBox from "devextreme-react/text-box";
 import TextArea from "devextreme-react/text-area";
 import Validator, { RequiredRule, RangeRule } from "devextreme-react/validator";
+
+const API_BASE_URL = "http://localhost:3000/products";
 
 /**
  * Loader function to fetch product details based on the provided ID.
@@ -20,12 +21,12 @@ export const loader = async ({ params }) => {
         throw new Response("Missing ID", { status: 400 });
     }
 
-    const product = await getProductById(Number(id));
-
-    if (!product) {
+    const response = await fetch(`${API_BASE_URL}/${id}`);
+    if (!response.ok) {
         throw new Response("Product Not Found", { status: 404 });
     }
 
+    const product = await response.json();
     return json({ product });
 };
 
@@ -55,7 +56,17 @@ export const action = async ({ request, params }) => {
         throw new Response("Invalid rating or reviews value", { status: 400 });
     }
 
-    await updateProduct(Number(params.id), { name, price, description, image, rating, reviews, category, brand });
+    const response = await fetch(`${API_BASE_URL}/${params.id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, price, description, image, rating, reviews, category, brand }),
+    });
+
+    if (!response.ok) {
+        throw new Response("Failed to update product", { status: response.status });
+    }
 
     return redirect("/manage");
 }
@@ -65,8 +76,8 @@ export default function EditProduct() {
     const [DxButton, setDxButton] = useState(null);
 
     /**
-   * Dynamically imports DevExtreme Button to prevent SSR issues.
-   */
+     * Dynamically imports DevExtreme Button to prevent SSR issues.
+     */
     useEffect(() => {
         import("devextreme-react/button").then((mod) => setDxButton(() => mod.default));
     }, []);
@@ -211,4 +222,3 @@ export default function EditProduct() {
         </section>
     );
 }
-
