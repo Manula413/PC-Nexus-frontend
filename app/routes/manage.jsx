@@ -15,13 +15,17 @@ export const loader = async () => {
     if (!response.ok) {
       throw new Error("Failed to fetch products");
     }
-    const products = await response.json();
+    let products = await response.json();
+
+    products.sort((a, b) => a.id - b.id);
+
     return json({ products });
   } catch (error) {
     console.error("Error loading products:", error);
     return json({ products: [] });
   }
 };
+
 
 /**
  * Handles form actions for managing products (adding or deleting).
