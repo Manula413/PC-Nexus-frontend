@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
  * @returns {Promise<Response>} A JSON response containing initial products and logos.
  */
 export const loader = async () => {
-    const response = await fetch("http://localhost:3000/products?page=1&limit=4"); 
+    const response = await fetch("https://vtossayw6e.execute-api.ap-southeast-2.amazonaws.com/prod/products?page=1&limit=4");
     const products = await response.json();
     const logos = await getLogos();
     return json({ products, logos });
@@ -27,7 +27,7 @@ export const action = async ({ request }) => {
     const formData = await request.formData();
     const page = Number(formData.get("page"));
 
-    const response = await fetch(`http://localhost:3000/products?page=${page}&limit=4`);
+    const response = await fetch(`https://vtossayw6e.execute-api.ap-southeast-2.amazonaws.com/prod/products?page=${page}&limit=4`);
     const products = await response.json();
     return json({ products });
 };

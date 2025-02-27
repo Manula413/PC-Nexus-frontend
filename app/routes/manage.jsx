@@ -4,7 +4,7 @@ import { useLoaderData, Form, Link, Outlet, useParams, useLocation } from "@remi
 import { DataGrid, Column } from 'devextreme-react/data-grid';
 import 'devextreme/dist/css/dx.light.css';
 
-const API_BASE_URL = "http://localhost:3000/products"; // Update this with your NestJS API URL
+const API_BASE_URL = "https://vtossayw6e.execute-api.ap-southeast-2.amazonaws.com/prod/products"; // Update this with your NestJS API URL
 
 /**
  * Fetches the list of products from the NestJS API.

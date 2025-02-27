@@ -35,7 +35,7 @@ export const action = async ({ request }) => {
             return json({ error: "Name and Price are required." }, { status: 400 });
         }
 
-        const response = await fetch("http://localhost:3000/products", {
+        const response = await fetch("https://vtossayw6e.execute-api.ap-southeast-2.amazonaws.com/prod/products", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

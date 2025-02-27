@@ -5,7 +5,7 @@ import TextBox from "devextreme-react/text-box";
 import TextArea from "devextreme-react/text-area";
 import Validator, { RequiredRule, RangeRule } from "devextreme-react/validator";
 
-const API_BASE_URL = "http://localhost:3000/products";
+const API_BASE_URL = "https://vtossayw6e.execute-api.ap-southeast-2.amazonaws.com/prod/products";
 
 /**
  * Loader function to fetch product details based on the provided ID.
