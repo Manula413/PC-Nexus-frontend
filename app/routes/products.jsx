@@ -62,14 +62,14 @@ export default function ProductDisplay() {
     };
 
     return (
-        <main className="p-8 bg-white">
+        <main className="p-8 bg-white max-w-8xl">
 
             {/* Featured Brands Section */}
-            <h2 className="text-3xl font-bold text-gray-800 text-center mb-8">Today's Featured Brands</h2>
-            <LogoCarousel /> <br />
+            <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">Today's Featured Brands</h2>
+            <LogoCarousel /> <br /><br />
 
             {/* Featured Items Section */}
-            <h2 className="text-3xl font-bold text-gray-800 text-center mb-8">Today's Featured Items</h2>
+            <h2 className="text-3xl font-bold text-gray-800 text-center mb-16">Today's Featured Items</h2>
             <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
                 {products.map((product) => (
                     <ProductCard key={product.id} product={product} />
