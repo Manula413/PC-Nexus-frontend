@@ -51,11 +51,16 @@ const ProductCard = ({ product }) => {
                     ))}
                     <span className="text-gray-500 text-xs ml-2">({product.reviews})</span>
                 </div>
+                <br/>
 
                 {/* Add to Cart Button */}
-                <button className="mt-4 w-full border border-gray-700 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-300 transform hover:scale-105">
+                <a
+                    href={product.permalink}  // Link to the product page
+                    target="_blank"  // Open in a new tab/window
+                    className="mt-4 w-full border border-gray-700 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-300 transform hover:scale-105"
+                >
                     Add to Cart
-                </button>
+                </a>
             </div>
         </div>
     );
