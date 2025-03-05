@@ -20,14 +20,15 @@ const Header = () => {
             <Link to="/" className="hover:text-gray-300 transition">
               Home
             </Link>
+            <Link to="/woocommerceProdcuts" className="hover:text-gray-300 transition">
+              WooCommerce
+            </Link>
+
             <Link to="/products" className="hover:text-gray-300 transition">
               Products
             </Link>
             <Link to="/manage" className="hover:text-gray-300 transition">Manage Products</Link>
 
-            <Link to="/test" className="hover:text-gray-300 transition">
-              Contact
-            </Link>
 
             <Link to="/test2" className="hover:text-gray-300 transition">
               Contact1
